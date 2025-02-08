@@ -32,21 +32,29 @@ graph_placeholder = st.empty()
 st.title("🎬 Intelligent Movie Knowledge Graph")
 st.subheader("Natural Language Query Interface with Visual Exploration")
 
-# Custom CSS for sidebar visibility
+# Custom CSS for sidebar visibility and placeholder text
 st.markdown("""
 <style>
     [data-testid="stSidebar"] {
         background: #f0f2f6 !important;
         border-right: 1px solid #ddd !important;
     }
+    
     [data-testid="stSidebar"] label {
         color: #2c3e50 !important;
         font-weight: 600 !important;
     }
+    
     [data-testid="stSidebar"] .stTextInput input {
         background: #ffffff !important;
         border: 1px solid #ced4da !important;
     }
+    
+    [data-testid="stSidebar"] .stTextInput input::placeholder {
+        color: #666666 !important;
+        opacity: 1 !important;
+    }
+    
     [data-testid="stSidebar"] .stButton button {
         background: #4CAF50 !important;
         color: white !important;
@@ -58,10 +66,14 @@ st.markdown("""
 # Sidebar Configuration
 with st.sidebar:
     st.header("🔐 Connection Settings")
-    neo4j_uri = st.text_input("Neo4j URI", value="neo4j+s://demo.neo4jlabs.com")
-    neo4j_user = st.text_input("Username", value="movies")
-    neo4j_pass = st.text_input("Password", type="password", value="movies")
-    groq_key = st.text_input("GROQ API Key", type="password")
+    neo4j_uri = st.text_input(
+        "Neo4j URI", 
+        placeholder="neo4j+s://your-instance.databases.neo4j.io",
+        value="neo4j+s://demo.neo4jlabs.com"
+    )
+    neo4j_user = st.text_input("Username", placeholder="Enter database username", value="movies")
+    neo4j_pass = st.text_input("Password", type="password", placeholder="Enter database password", value="movies")
+    groq_key = st.text_input("GROQ API Key", type="password", placeholder="sk-your-groq-api-key-here")
     
     if st.button("Initialize Connections"):
         with connection_status:
@@ -107,7 +119,7 @@ if 'graph' in locals() and 'llm' in locals():
 
 # Query Interface
 if 'graph' in locals() and 'llm' in locals():
-    query = st.text_input("Enter your question about movies, actors, or genres:")
+    query = st.text_input("Enter your question about movies, actors, or genres:", placeholder="e.g., Who directed The Matrix?")
     
     if query:
         with query_result_placeholder.container():
