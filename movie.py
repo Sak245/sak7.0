@@ -1,4 +1,17 @@
 import streamlit as st
+
+# Must be the first Streamlit command
+st.set_page_config(
+    page_title="Movie Graph Explorer", 
+    layout="wide",
+    menu_items={
+        'Get Help': 'https://neo4j.com/docs/',
+        'Report a bug': 'https://github.com/neo4j-examples/movie-graph-streamlit/issues',
+        'About': "# Movie Graph Explorer\nInteractive Neo4j knowledge graph visualization"
+    }
+)
+
+# Now import other modules
 import os
 import time
 from langchain_community.graphs import Neo4jGraph
@@ -9,14 +22,13 @@ from pyvis.network import Network
 from streamlit.components.v1 import html
 from neo4j.graph import Node, Relationship
 
-# Initialize placeholders at the start
+# Initialize placeholders AFTER page config
 connection_status = st.empty()
 data_loading_status = st.empty()
 query_result_placeholder = st.empty()
 graph_placeholder = st.empty()
 
-# Streamlit Configuration
-st.set_page_config(page_title="Movie Graph Explorer", layout="wide")
+# App Title
 st.title("🎬 Intelligent Movie Knowledge Graph")
 st.subheader("Natural Language Query Interface with Visual Exploration")
 
