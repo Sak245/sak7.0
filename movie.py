@@ -1,6 +1,6 @@
 import streamlit as st
 
-# Must be the first Streamlit command
+# Page config must be first
 st.set_page_config(
     page_title="Movie Graph Explorer", 
     layout="wide",
@@ -11,7 +11,7 @@ st.set_page_config(
     }
 )
 
-# Now import other modules
+# Import other modules after page config
 import os
 import time
 from langchain_community.graphs import Neo4jGraph
@@ -22,7 +22,7 @@ from pyvis.network import Network
 from streamlit.components.v1 import html
 from neo4j.graph import Node, Relationship
 
-# Initialize placeholders AFTER page config
+# Initialize placeholders
 connection_status = st.empty()
 data_loading_status = st.empty()
 query_result_placeholder = st.empty()
@@ -31,6 +31,29 @@ graph_placeholder = st.empty()
 # App Title
 st.title("🎬 Intelligent Movie Knowledge Graph")
 st.subheader("Natural Language Query Interface with Visual Exploration")
+
+# Custom CSS for sidebar visibility
+st.markdown("""
+<style>
+    [data-testid="stSidebar"] {
+        background: #f0f2f6 !important;
+        border-right: 1px solid #ddd !important;
+    }
+    [data-testid="stSidebar"] label {
+        color: #2c3e50 !important;
+        font-weight: 600 !important;
+    }
+    [data-testid="stSidebar"] .stTextInput input {
+        background: #ffffff !important;
+        border: 1px solid #ced4da !important;
+    }
+    [data-testid="stSidebar"] .stButton button {
+        background: #4CAF50 !important;
+        color: white !important;
+        border: none !important;
+    }
+</style>
+""", unsafe_allow_html=True)
 
 # Sidebar Configuration
 with st.sidebar:
@@ -178,19 +201,3 @@ if 'graph' in locals() and 'llm' in locals():
             except Exception as e:
                 query_result_placeholder.error(f"Query failed: {str(e)}")
                 graph_placeholder.empty()
-
-# Styling
-st.markdown("""
-<style>
-    [data-testid=stSidebar] {
-        background: #f8f9fa!important;
-        border-right: 1px solid #eee;
-    }
-    .stButton>button {
-        transition: all 0.2s;
-    }
-    .stTextInput>div>div>input {
-        border-radius: 8px!important;
-    }
-</style>
-""", unsafe_allow_html=True)
